@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>UMEKO</title>
+<meta name="description" content="Финансовый портал UMEKO">
+<meta name="theme-color" content="#0f1c2e">
+<!-- iPhone: иконка, название и режим «как приложение» -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="UMEKO">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<!-- Android: файл приложения -->
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+  :root { --bg: #0f1c2e; --ink: #eef3f9; --muted: #9fb0c6; --accent: #2f7cf6; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--bg); color: var(--ink); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+         display: grid; place-items: center; padding: max(24px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom)); }
+  .box { max-width: 380px; width: 100%; text-align: center; display: grid; gap: 18px; justify-items: center; }
+  .logo { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+  h1 { margin: 0; font-size: 24px; letter-spacing: .02em; }
+  p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 15px; }
+  a.btn { display: inline-block; background: var(--accent); color: #fff; text-decoration: none; font-weight: 600;
+          padding: 13px 22px; border-radius: 12px; font-size: 16px; }
+  .how { text-align: left; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 14px 16px; font-size: 14px; color: var(--muted); line-height: 1.55; }
+  .how b { color: var(--ink); }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+  <div class="box">
+    <img class="logo" src="icon-512.png" alt="UMEKO">
+    <h1>UMEKO</h1>
+    <p id="wait" hidden>Открываю портал…</p>
+    <a class="btn" id="open" href="#">Открыть портал</a>
+    <div class="how" id="how">
+      <b>Как поставить на экран «Домой»</b><br>
+      iPhone: в Safari нажмите «Поделиться» → «На экран „Домой“» → «Добавить».<br>
+      Android: в Chrome меню ⋮ → «Добавить на главный экран» или «Установить приложение».
+    </div>
+  </div>
+<script>
+  // Ссылка на портал (веб-приложение Google Apps Script). Сам портал не меняется и работает и без этого ярлыка.
+  var PORTAL_URL = "https://script.google.com/macros/s/AKfycbxIJxx5tPmjgcVp9JelVM4b6wMjert33WfuxyybPq4VdbJcVfJOlpfpFe2cBqA0NAPvxw/exec";
+  document.getElementById("open").href = PORTAL_URL;
+  // Запущено с иконки на экране «Домой» — сразу переходим в портал.
+  // В обычном браузере остаёмся на этой странице, иначе iPhone добавит на экран «Домой» не ярлык, а страницу Google.
+  var standalone = window.navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches;
+  if (standalone) {
+    document.getElementById("wait").hidden = false;
+    document.getElementById("how").hidden = true;
+    location.replace(PORTAL_URL);
+  }
+</script>
+</body>
+</html>
